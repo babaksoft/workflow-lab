@@ -1,0 +1,14 @@
+# Common Python, tools and IDE artifacts
+__pycache__/
+.pytest_cache/
+.mypy_cache
+.ruff_cache
+.idea/
+.vscode/
+
+# Common virtual environment and Jupyter notebook stuff
+.ipynb_checkpoints/
+.venv/
+
+# Commonly ignored items
+.env
