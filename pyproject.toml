@@ -47,6 +47,7 @@ dev = [
     "isort",
     "mypy",
     "pytest",
+    "pytest-asyncio",
     "ruff",
 ]
 
@@ -59,6 +60,7 @@ profile = "black"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+asyncio_mode = "auto"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/workflow_lab"]
