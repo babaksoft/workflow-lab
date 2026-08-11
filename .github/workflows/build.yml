@@ -77,7 +77,7 @@ jobs:
 
       - name: Install pytest
         run: |
-          pip install -c constraints.txt pytest
+          pip install -c constraints.txt pytest pytest-asyncio
 
       - name: Run unit tests
         run: pytest -m "not integration" -v
