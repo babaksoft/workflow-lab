@@ -1,7 +1,12 @@
 import asyncio
+import logging
 
 from workflows import Workflow, step
 from workflows.events import StartEvent, StopEvent
+
+from workflow_lab.config.logging import configure_logging
+
+logger = logging.getLogger(__name__)
 
 
 class MathFlow(Workflow):
@@ -22,12 +27,21 @@ class MathFlow(Workflow):
 
 
 async def main() -> None:
+    configure_logging()
+
     workflow = MathFlow(workflow_name="Simple Math", timeout=30, verbose=False)
-    print(f"Workflow started: workflow_name='{workflow.workflow_name}'")
+    logger.info(
+        "Workflow started: workflow_name='%s'",
+        workflow.workflow_name,
+    )
 
     result = await workflow.run()
 
-    print(f"Workflow '{workflow.workflow_name}' completed: result={result!s}")
+    logger.info(
+        "Workflow '%s' completed: result=%d",
+        workflow.workflow_name,
+        result,
+    )
 
 
 if __name__ == "__main__":
