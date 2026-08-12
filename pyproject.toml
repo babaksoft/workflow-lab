@@ -32,6 +32,8 @@ dependencies = [
     "llama-index-workflows",
     "pydantic",
     "python-dotenv",
+    "requests",
+    "streamlit",
 ]
 
 [project.urls]
