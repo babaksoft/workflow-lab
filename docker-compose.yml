@@ -39,6 +39,22 @@ services:
     depends_on:
       - api
 
+  grafana:
+    image: dhi.io/grafana:13-debian13-dev
+    container_name: workflow_grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    networks:
+      - workflow-network
+    depends_on:
+      - prometheus
+
+volumes:
+  grafana-data:
+
 networks:
   workflow-network:
     driver: bridge
