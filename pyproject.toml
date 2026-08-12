@@ -33,8 +33,6 @@ dependencies = [
     "prometheus_client",
     "pydantic",
     "python-dotenv",
-    "requests",
-    "streamlit",
 ]
 
 [project.urls]
@@ -45,6 +43,11 @@ Issues = "https://github.com/babaksoft/workflow-lab/issues"
 build = [
     "build",
     "hatchling"
+]
+
+ui = [
+    "requests",
+    "streamlit",
 ]
 
 dev = [

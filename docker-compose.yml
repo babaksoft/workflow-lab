@@ -1,0 +1,32 @@
+services:
+
+  api:
+    build:
+      context: .
+      dockerfile: src/workflow_lab/api/Dockerfile
+    container_name: workflow_api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    networks:
+      - workflow-network
+
+  app:
+    build:
+      context: .
+      dockerfile: src/workflow_lab/ui/Dockerfile
+    container_name: workflow_app
+    environment:
+      - URL_PREFIX=http://api:8000/api/v1
+
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    networks:
+      - workflow-network
+    depends_on:
+      - api
+
+networks:
+  workflow-network:
+    driver: bridge

@@ -3,7 +3,9 @@ from typing import Any
 import requests
 import streamlit as st
 
-API_URL = "http://localhost:8000/api/v1/workflow"
+from workflow_lab.config import settings
+
+API_URL = f"{settings.URL_PREFIX}/workflow"
 
 
 def run_workflow() -> int:
