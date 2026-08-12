@@ -57,6 +57,7 @@ dev = [
     "pytest",
     "pytest-asyncio",
     "ruff",
+    "streamlit",
 ]
 
 [tool.black]
