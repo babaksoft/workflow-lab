@@ -30,6 +30,7 @@ dependencies = [
     "llama-index-llms-ollama",
     "llama-index-llms-openai",
     "llama-index-workflows",
+    "prometheus_client",
     "pydantic",
     "python-dotenv",
     "requests",
