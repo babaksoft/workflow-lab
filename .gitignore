@@ -12,6 +12,7 @@ __pycache__/
 
 # Commonly ignored items
 .env
+logs/
 
 # Other handy artifacts "not" belonging to source repo
 SUMMARY.md
