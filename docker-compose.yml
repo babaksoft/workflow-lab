@@ -27,6 +27,18 @@ services:
     depends_on:
       - api
 
+  prometheus:
+    image: dhi.io/prometheus:3.11
+    container_name: workflow_prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - workflow-network
+    depends_on:
+      - api
+
 networks:
   workflow-network:
     driver: bridge
