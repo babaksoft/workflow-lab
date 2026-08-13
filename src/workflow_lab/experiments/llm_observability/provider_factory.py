@@ -31,15 +31,13 @@ def create_provider(provider: str, model: str) -> LLMProvider:
             If the provider is unsupported.
     """
 
-    providers = {
-        "openai": OpenAIProvider,
-        "bedrock": BedrockProvider,
-        "ollama": OllamaProvider,
-    }
+    if provider.lower() == "openai":
+        return OpenAIProvider(model)
 
-    try:
-        provider_class = providers[provider.lower()]
-    except KeyError as exc:
-        raise ValueError(f"Unsupported LLM provider: {provider}") from exc
+    if provider.lower() == "bedrock":
+        return BedrockProvider(model)
 
-    return provider_class(model=model)
+    if provider.lower() == "ollama":
+        return OllamaProvider(model)
+
+    raise ValueError(f"Unsupported LLM provider: {provider}")

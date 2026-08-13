@@ -1,3 +1,4 @@
+# mypy: disable-error-code="import-untyped"
 from llama_index.llms.bedrock import Bedrock
 
 from workflow_lab.experiments.llm_observability.llm_provider import LLMProvider
@@ -23,6 +24,6 @@ class BedrockProvider(LLMProvider):
 
         llm = Bedrock(model=self._model)
 
-        response = await llm.acomplete(prompt)
+        response = llm.complete(prompt)
 
-        return response.text
+        return str(response.text)

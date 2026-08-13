@@ -1,3 +1,4 @@
+# mypy: disable-error-code="import-untyped"
 from llama_index.llms.ollama import Ollama
 
 from workflow_lab.experiments.llm_observability.llm_provider import LLMProvider
@@ -25,4 +26,4 @@ class OllamaProvider(LLMProvider):
 
         response = await llm.acomplete(prompt)
 
-        return response.text
+        return str(response.text)

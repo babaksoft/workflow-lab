@@ -25,4 +25,4 @@ class OpenAIProvider(LLMProvider):
 
         response = await llm.acomplete(prompt)
 
-        return response.text
+        return str(response.text)
