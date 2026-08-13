@@ -25,11 +25,13 @@ classifiers = [
 ]
 
 dependencies = [
+    "arize-phoenix",
     "fastapi[standard]",
     "llama-index-llms-bedrock",
     "llama-index-llms-ollama",
     "llama-index-llms-openai",
     "llama-index-workflows",
+    "openinference-instrumentation-llama-index",
     "prometheus_client",
     "pydantic",
     "python-dotenv",
