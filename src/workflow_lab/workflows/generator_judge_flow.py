@@ -4,6 +4,10 @@ from pydantic import BaseModel, Field
 from workflows import Workflow, step
 from workflows.events import Event, StartEvent, StopEvent
 
+from workflow_lab.prompts.generator_judge import (
+    GENERATOR_PROMPT,
+    JUDGE_PROMPT,
+)
 from workflow_lab.providers import LLMProvider
 
 
@@ -27,10 +31,31 @@ class GeneratorJudgeFlow(Workflow):
         self,
         provider: LLMProvider,
         *,
+        workflow_name: str,
         timeout: float = 60,
         verbose: bool = False,
     ) -> None:
+        """
+        Initialize the workflow instance.
+
+        Args:
+            provider:
+                Language model provider.
+
+            workflow_name:
+                Workflow name used for instrumentation.
+
+            timeout:
+                Maximum seconds to wait for workflow completion.
+                Default is 60 seconds.
+
+            verbose:
+                Whether to print step activity during execution.
+                Default is False.
+        """
+
         super().__init__(timeout=timeout, verbose=verbose)
+        self._workflow_name = workflow_name
         self._provider = provider
 
     @step
@@ -46,15 +71,8 @@ class GeneratorJudgeFlow(Workflow):
             Response event containing the generated answer.
         """
 
-        prompt = """Write exactly 4 bullet points about Python generators.
-
-Constraints:
-
-* Each bullet must contain exactly 10 words.
-* Do not use the words "lazy", "memory", or "iterator".
-"""
         return ResponseEvent(
-            response=await self._provider.generate(prompt),
+            response=await self._provider.generate(GENERATOR_PROMPT),
         )
 
     @step
@@ -75,38 +93,7 @@ Constraints:
                 If the judge does not return valid JSON.
         """
 
-        prompt = f"""Evaluate the following answer according to these requirements.
-
-Generation requirements:
-
-* The answer must contain exactly 4 bullet points.
-* Each bullet must contain exactly 10 words.
-* The words "lazy", "memory", and "iterator" must not appear.
-
-Evaluate these rubrics:
-
-* constraint_handling: Does the answer follow all generation requirements?
-* word_counting: Does each bullet contain exactly 10 words?
-* word_filtering: Does the answer avoid all forbidden words?
-
-Return ONLY valid JSON with exactly this structure:
-
-{{
-    "constraint_handling": <integer from 1 to 10>,
-    "word_counting": <integer from 1 to 10>,
-    "word_filtering": <integer from 1 to 10>,
-    "justification": {{
-        "constraint_handling": "<short justification>",
-        "word_counting": "<short justification>",
-        "word_filtering": "<short justification>"
-    }}
-}}
-
-Answer to judge:
-
-{ev.response}
-"""
-
+        prompt = JUDGE_PROMPT.format(response=ev.response)
         response = await self._provider.generate(prompt)
 
         try:

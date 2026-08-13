@@ -2,11 +2,11 @@ import asyncio
 
 from workflow_lab.config.logging import configure_logging
 from workflow_lab.config.settings import load_environment
-from workflow_lab.experiments.llm_observability.generator_judge_flow import (
-    GeneratorJudgeFlow,
-)
 from workflow_lab.providers import create_provider
 from workflow_lab.utils.instrumentation import instrument
+from workflow_lab.workflows.generator_judge_flow import (
+    GeneratorJudgeFlow,
+)
 
 
 async def main() -> None:
@@ -21,6 +21,7 @@ async def main() -> None:
 
     workflow = GeneratorJudgeFlow(
         provider=provider,
+        workflow_name="Test Workflow",
         timeout=60,
     )
 
