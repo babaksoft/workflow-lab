@@ -1,13 +1,13 @@
-from workflow_lab.experiments.llm_observability.bedrock_provider import (
+from workflow_lab.experiments.llm_observability.providers.bedrock_provider import (
     BedrockProvider,
 )
-from workflow_lab.experiments.llm_observability.llm_provider import (
+from workflow_lab.experiments.llm_observability.providers.llm_provider import (
     LLMProvider,
 )
-from workflow_lab.experiments.llm_observability.ollama_provider import (
+from workflow_lab.experiments.llm_observability.providers.ollama_provider import (
     OllamaProvider,
 )
-from workflow_lab.experiments.llm_observability.openai_provider import (
+from workflow_lab.experiments.llm_observability.providers.openai_provider import (
     OpenAIProvider,
 )
 

@@ -4,7 +4,7 @@ import logging
 from dotenv import find_dotenv, load_dotenv
 
 from workflow_lab.config.logging import configure_logging
-from workflow_lab.experiments.llm_observability.provider_factory import (
+from workflow_lab.experiments.llm_observability.providers.provider_factory import (
     create_provider,
 )
 
