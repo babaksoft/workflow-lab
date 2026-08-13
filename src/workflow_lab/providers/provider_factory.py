@@ -1,15 +1,7 @@
-from workflow_lab.experiments.llm_observability.providers.bedrock_provider import (
-    BedrockProvider,
-)
-from workflow_lab.experiments.llm_observability.providers.llm_provider import (
-    LLMProvider,
-)
-from workflow_lab.experiments.llm_observability.providers.ollama_provider import (
-    OllamaProvider,
-)
-from workflow_lab.experiments.llm_observability.providers.openai_provider import (
-    OpenAIProvider,
-)
+from workflow_lab.providers.bedrock_provider import BedrockProvider
+from workflow_lab.providers.llm_provider import LLMProvider
+from workflow_lab.providers.ollama_provider import OllamaProvider
+from workflow_lab.providers.openai_provider import OpenAIProvider
 
 
 def create_provider(provider: str, model: str) -> LLMProvider:

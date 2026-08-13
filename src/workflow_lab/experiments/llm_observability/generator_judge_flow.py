@@ -4,9 +4,7 @@ from pydantic import BaseModel, Field
 from workflows import Workflow, step
 from workflows.events import Event, StartEvent, StopEvent
 
-from workflow_lab.experiments.llm_observability.providers.llm_provider import (
-    LLMProvider,
-)
+from workflow_lab.providers import LLMProvider
 
 
 class JudgeResult(BaseModel):

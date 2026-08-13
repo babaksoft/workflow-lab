@@ -1,8 +1,6 @@
 from llama_index.llms.openai import OpenAI
 
-from workflow_lab.experiments.llm_observability.providers.llm_provider import (
-    LLMProvider,
-)
+from workflow_lab.providers.llm_provider import LLMProvider
 
 
 class OpenAIProvider(LLMProvider):

@@ -5,9 +5,7 @@ from workflow_lab.config.settings import load_environment
 from workflow_lab.experiments.llm_observability.generator_judge_flow import (
     GeneratorJudgeFlow,
 )
-from workflow_lab.experiments.llm_observability.providers.provider_factory import (
-    create_provider,
-)
+from workflow_lab.providers import create_provider
 from workflow_lab.utils.instrumentation import instrument
 
 

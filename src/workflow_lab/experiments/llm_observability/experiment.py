@@ -3,9 +3,7 @@ import logging
 
 from workflow_lab.config.logging import configure_logging
 from workflow_lab.config.settings import load_environment
-from workflow_lab.experiments.llm_observability.providers.provider_factory import (
-    create_provider,
-)
+from workflow_lab.providers import create_provider
 
 logger = logging.getLogger(__name__)
 
