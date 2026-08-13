@@ -5,6 +5,7 @@ from workflows import Workflow, step
 from workflows.events import StartEvent, StopEvent
 
 from workflow_lab.config.logging import configure_logging
+from workflow_lab.utils.instrumentation import instrument
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +29,7 @@ class MathFlow(Workflow):
 
 async def main() -> None:
     configure_logging()
+    instrument()
 
     workflow = MathFlow(workflow_name="Simple Math", timeout=30, verbose=False)
     logger.info(
