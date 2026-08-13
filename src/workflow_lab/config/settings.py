@@ -1,5 +1,5 @@
 """
-Application-wide settings that complement observability.
+Application-wide settings.
 """
 
 import logging

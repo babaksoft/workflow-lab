@@ -34,6 +34,7 @@ services:
       - "9090:9090"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
     networks:
       - workflow-network
     depends_on:
@@ -45,14 +46,15 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - grafana-data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - grafana-data:/var/lib/grafana
     networks:
       - workflow-network
     depends_on:
       - prometheus
 
 volumes:
+  prometheus-data:
   grafana-data:
 
 networks:
