@@ -1,15 +1,13 @@
 import asyncio
 import logging
 
-from dotenv import find_dotenv, load_dotenv
-
 from workflow_lab.config.logging import configure_logging
+from workflow_lab.config.settings import load_environment
 from workflow_lab.experiments.llm_observability.providers.provider_factory import (
     create_provider,
 )
 
 logger = logging.getLogger(__name__)
-_ = load_dotenv(find_dotenv())
 
 
 def show_banner() -> str:
@@ -24,6 +22,7 @@ def show_banner() -> str:
 
 
 async def main() -> None:
+    load_environment()
     configure_logging()
 
     choice = show_banner()
