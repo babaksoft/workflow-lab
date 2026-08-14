@@ -1,7 +1,6 @@
 import asyncio
 
 from workflow_lab.config.logging import configure_logging
-from workflow_lab.config.settings import load_environment
 from workflow_lab.providers import create_provider
 from workflow_lab.utils.instrumentation import instrument
 from workflow_lab.workflows.generator_judge_flow import (
@@ -10,9 +9,8 @@ from workflow_lab.workflows.generator_judge_flow import (
 
 
 async def main() -> None:
-    load_environment()
     configure_logging()
-    instrument()
+    instrument()  # MUST run `phoenix serve` before `main` executes
 
     provider = create_provider(
         provider="bedrock",

@@ -2,7 +2,6 @@ import asyncio
 import logging
 
 from workflow_lab.config.logging import configure_logging
-from workflow_lab.config.settings import load_environment
 from workflow_lab.providers import create_provider
 
 logger = logging.getLogger(__name__)
@@ -20,7 +19,6 @@ def show_banner() -> str:
 
 
 async def main() -> None:
-    load_environment()
     configure_logging()
 
     choice = show_banner()
