@@ -1,3 +1,5 @@
+from typing import Any
+
 from pydantic import BaseModel
 
 
@@ -10,4 +12,4 @@ class WorkflowResponse(BaseModel):
             Result produced by the workflow.
     """
 
-    result: int
+    result: dict[str, Any]

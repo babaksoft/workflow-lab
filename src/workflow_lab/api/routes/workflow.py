@@ -1,5 +1,8 @@
-from fastapi import APIRouter
+from typing import Annotated
 
+from fastapi import APIRouter, Depends
+
+from workflow_lab.api.dependencies import get_workflow
 from workflow_lab.api.instrument import (
     WORKFLOW_ERRORS,
     WORKFLOW_EXECUTIONS,
@@ -7,31 +10,27 @@ from workflow_lab.api.instrument import (
 )
 from workflow_lab.api.schemas.workflow import WorkflowResponse
 from workflow_lab.utils.timer import Timer
-from workflow_lab.workflows.math_flow import MathFlow
+from workflow_lab.workflows.generator_judge_flow import GeneratorJudgeFlow
 
 router = APIRouter(prefix="/workflow", tags=["workflow"])
 
 
 @router.post("", response_model=WorkflowResponse)
-async def run_workflow() -> WorkflowResponse:
+async def run_workflow(
+    workflow: Annotated[GeneratorJudgeFlow, Depends(get_workflow)],
+) -> WorkflowResponse:
     """
-    Executes the math workflow.
+    Executes the Generator-Judge workflow.
 
     Returns:
-        Workflow response containing the calculation result.
+        Workflow response containing the judge LLM verdict.
 
     Raises:
         Exception:
             If workflow execution fails.
     """
 
-    workflow_name = "Simple Math"
-    workflow = MathFlow(
-        workflow_name=workflow_name,
-        timeout=30,
-        verbose=False,
-    )
-
+    workflow_name = workflow.workflow_name
     with Timer() as timer:
         try:
             result = await workflow.run()

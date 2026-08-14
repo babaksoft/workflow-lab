@@ -35,6 +35,8 @@ LOCAL_URL_PREFIX = "http://127.0.0.1:8000/api/v1"
 URL_PREFIX = os.getenv("URL_PREFIX", LOCAL_URL_PREFIX)
 
 # Phoenix settings
+PHOENIX_ENABLED = os.getenv("PHOENIX_ENABLED", "false").lower() == "true"
+
 LOCAL_PHOENIX_PROJECT_NAME = "workflow-lab-dev"
 PHOENIX_PROJECT_NAME = os.getenv(
     "PHOENIX_PROJECT_NAME",

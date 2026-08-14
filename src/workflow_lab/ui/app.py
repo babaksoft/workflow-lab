@@ -46,6 +46,6 @@ if st.button("Run Workflow"):
     with st.spinner("Working..."):
         try:
             result = run_workflow()
-            st.success(f"Workflow result: {result}")
+            st.json(result)
         except requests.RequestException as exc:
             st.error(f"Workflow request failed: {exc}")

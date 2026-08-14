@@ -1,6 +1,8 @@
 from openinference.instrumentation.llama_index import LlamaIndexInstrumentor
 from phoenix.otel import register
 
+from workflow_lab.config import settings
+
 
 def instrument() -> None:
     """
@@ -8,7 +10,8 @@ def instrument() -> None:
     """
 
     tracer_provider = register(
-        project_name="workflow-lab-otel",
+        endpoint=settings.PHOENIX_COLLECTOR_ENDPOINT,
+        project_name=settings.PHOENIX_PROJECT_NAME,
         protocol="http/protobuf",
     )
     LlamaIndexInstrumentor().instrument(

@@ -24,7 +24,7 @@ class MathFlow(Workflow):
             Stop event triggering workflow completion.
         """
 
-        return StopEvent(result=2 + 2)
+        return StopEvent(result={"value": 2 + 2})
 
 
 async def main() -> None:

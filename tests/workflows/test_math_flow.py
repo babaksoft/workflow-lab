@@ -10,4 +10,4 @@ async def test_math_flow_returns_expected_result() -> None:
 
     result = await workflow.run()
 
-    assert result == 4
+    assert result == {"value": 4}
