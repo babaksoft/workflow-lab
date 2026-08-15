@@ -8,7 +8,7 @@ from workflow_lab.config import settings
 API_URL = f"{settings.URL_PREFIX}/workflow"
 
 
-def run_workflow() -> int:
+def run_workflow() -> Any | None:
     """
     Executes the workflow through the API.
 
@@ -28,9 +28,6 @@ def run_workflow() -> int:
     payload: dict[str, Any] = response.json()
     result = payload.get("result")
 
-    if not isinstance(result, int):
-        raise TypeError("Invalid workflow response: expected integer result.")
-
     return result
 
 
@@ -46,6 +43,6 @@ if st.button("Run Workflow"):
     with st.spinner("Working..."):
         try:
             result = run_workflow()
-            st.json(result)
+            st.json(result or {})
         except requests.RequestException as exc:
             st.error(f"Workflow request failed: {exc}")

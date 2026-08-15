@@ -1,42 +1,37 @@
+# syntax=docker/dockerfile:1
+
 FROM python:3.12-slim AS builder
-
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    VIRTUAL_ENV=/opt/venv \
-    PATH="/opt/venv/bin:$PATH"
-
-RUN python -m venv "$VIRTUAL_ENV"
 
 WORKDIR /build
 
-COPY pyproject.toml README.md ./
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
+
+RUN python -m venv "${VIRTUAL_ENV}" \
+    && pip install --upgrade pip
+
+COPY pyproject.toml constraints.txt README.md LICENSE ./
 COPY src ./src
 
-RUN pip install --upgrade pip \
-    && pip install --no-cache-dir build \
-    && python -m build --wheel --outdir /dist
-
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --constraint constraints.txt .
 
 FROM python:3.12-slim AS runtime
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    VIRTUAL_ENV=/opt/venv \
-    PATH="/opt/venv/bin:$PATH"
+WORKDIR /app
+
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
 
 RUN useradd --create-home --shell /usr/sbin/nologin appuser
 
-COPY --from=builder /dist/*.whl /tmp/
-
-RUN python -m venv "$VIRTUAL_ENV" \
-    && pip install --no-cache-dir /tmp/*.whl \
-    && rm -rf /tmp/*.whl
-
-WORKDIR /app
-
+COPY --from=builder /opt/venv /opt/venv
 COPY --from=builder /build/src ./src
 
-RUN chown -R appuser:appuser /app
+RUN mkdir -p /app/logs \
+    && chown -R appuser:appuser /app
 
 USER appuser
 
