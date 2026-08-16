@@ -11,3 +11,4 @@ logs/
 tests/
 .env
 secrets/
+*.pem

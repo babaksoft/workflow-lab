@@ -7,13 +7,9 @@
 
 # Workflow Lab
 
-An experimental platform for building, evaluating, and observing **LLM-powered workflows** with a production-oriented architecture.
+Workflow Lab is a hands-on laboratory for designing, evaluating, observing, and deploying **LLM-powered workflows** with a production-oriented Python architecture.
 
 The project focuses on **Agentic Workflows / LLM orchestration**, while deliberately keeping infrastructure modular, lightweight, and provider-agnostic.
-
-## Main Objective
-
-**Workflow Lab is a hands-on laboratory for designing, evaluating, observing, and deploying LLM-powered workflows with a production-oriented Python architecture.**
 
 ## Current Stack
 
@@ -29,7 +25,6 @@ The project focuses on **Agentic Workflows / LLM orchestration**, while delibera
 * **Docker Hub** — container registry
 * **GitHub Actions** — CI/CD
 * **pytest / mypy / Ruff / Black / isort** — quality and testing
-* **Alembic / SQLAlchemy** — persistence foundation
 
 ## Architecture
 
@@ -120,7 +115,6 @@ The API includes:
 * HTTP-level metrics middleware
 * Workflow-level metrics
 * Application logging
-* Health/operational infrastructure
 
 LLM execution is deliberately kept behind the workflow/provider boundary rather than embedded in the API layer.
 
@@ -204,13 +198,13 @@ Persistent Docker volumes are configured for:
 
 Sensitive LLM credentials are supplied through Docker secrets rather than committed configuration.
 
-### CI
+### Continuous Integration (CI)
 
-GitHub Actions continuously validates the project using the project's quality and test suite.
+A GitHub Actions CI workflow continuously validates the project using the project's quality and test suite.
 
 The CI pipeline includes static analysis, formatting/linting and automated tests.
 
-### Continuous Delivery
+### Continuous Delivery (CD)
 
 A GitHub Actions CD workflow has now been implemented.
 
@@ -292,7 +286,7 @@ The project currently has:
 * ✅ Docker Compose environment
 * ✅ Persistent monitoring/observability storage
 * ✅ Docker secrets
-* ✅ CI
+* ✅ Continuous Integration
 * ✅ Docker Hub publishing
 * ✅ Continuous Delivery Phase 1
 
