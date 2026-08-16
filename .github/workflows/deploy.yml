@@ -25,9 +25,12 @@ jobs:
           set -e
 
           mkdir -p ~/.ssh
-          printf '%s\n' '${{ secrets.EC2_SSH_KEY }}' > ~/.ssh/deploy.pem
+
+          printf '%s' '${{ secrets.EC2_SSH_KEY }}' | tr -d '\r' > ~/.ssh/deploy.pem
           chmod 600 ~/.ssh/deploy.pem
           trap 'rm -f ~/.ssh/deploy.pem' EXIT
+
+          ssh-keygen -y -f ~/.ssh/deploy.pem > /dev/null
 
           ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
 
