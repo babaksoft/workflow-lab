@@ -13,13 +13,17 @@ services:
       PHOENIX_ENABLED: "true"
       LLM_PROVIDER: ${LLM_PROVIDER}
       LLM_MODEL: ${LLM_MODEL}
-      LOG_DIR: /app/log
+      LOG_DIR: /app/logs
+
+    secrets:
+      - openai_api_key
+      - bedrock_api_key
 
     ports:
       - "8000:8000"
 
     volumes:
-      - api-logs:/app/log
+      - api-logs:/app/logs
 
     networks:
       - workflow-network
@@ -115,3 +119,10 @@ volumes:
 
 networks:
   workflow-network:
+
+secrets:
+  openai_api_key:
+    file: ./secrets/openai_api_key.txt
+
+  bedrock_api_key:
+    file: ./secrets/bedrock_api_key.txt

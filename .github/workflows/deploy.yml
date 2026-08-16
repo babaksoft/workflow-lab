@@ -10,36 +10,49 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to EC2
     runs-on: ubuntu-latest
-
-    environment: production
 
     steps:
       - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ vars.EC2_HOST }}
-          username: ${{ vars.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          script: |
-            set -e
+        env:
+          EC2_HOST: ${{ vars.EC2_HOST }}
+          EC2_USER: ${{ vars.EC2_USER }}
+          IMAGE_TAG: ${{ inputs.image_tag }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AWS_BEARER_TOKEN_BEDROCK: ${{ secrets.AWS_BEARER_TOKEN_BEDROCK }}
+        run: |
+          set -e
 
-            cd ${{ vars.DEPLOY_PATH }}
+          mkdir -p ~/.ssh
+          printf '%s\n' '${{ secrets.EC2_SSH_KEY }}' > ~/.ssh/deploy.pem
+          chmod 600 ~/.ssh/deploy.pem
+          trap 'rm -f ~/.ssh/deploy.pem' EXIT
 
-            export IMAGE_TAG="${{ inputs.image_tag }}"
+          ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
 
-            docker compose \
-              --env-file .env \
-              -f docker-compose.prod.yml \
-              pull
+          echo "Preparing deployment directories..."
+          ssh -i ~/.ssh/deploy.pem "$EC2_USER@$EC2_HOST" \
+            "mkdir -p /opt/workflow-lab/secrets && \
+             chmod 700 /opt/workflow-lab/secrets"
 
-            docker compose \
-              --env-file .env \
-              -f docker-compose.prod.yml \
-              up -d
+          echo "Provisioning Docker secrets..."
+          printf '%s' "$OPENAI_API_KEY" | \
+            ssh -i ~/.ssh/deploy.pem "$EC2_USER@$EC2_HOST" \
+            "cat > /opt/workflow-lab/secrets/openai_api_key.txt && \
+             chmod 600 /opt/workflow-lab/secrets/openai_api_key.txt"
 
-            docker compose \
-              --env-file .env \
-              -f docker-compose.prod.yml \
-              ps
+          printf '%s' "$AWS_BEARER_TOKEN_BEDROCK" | \
+            ssh -i ~/.ssh/deploy.pem "$EC2_USER@$EC2_HOST" \
+            "cat > /opt/workflow-lab/secrets/bedrock_api_key.txt && \
+             chmod 600 /opt/workflow-lab/secrets/bedrock_api_key.txt"
+
+          echo "Deploying image tag: $IMAGE_TAG"
+          ssh -i ~/.ssh/deploy.pem "$EC2_USER@$EC2_HOST" \
+            "cd /opt/workflow-lab && \
+             IMAGE_TAG='$IMAGE_TAG' docker compose -f docker-compose.prod.yml pull && \
+             IMAGE_TAG='$IMAGE_TAG' docker compose -f docker-compose.prod.yml up -d"
+
+          echo "Deployment completed."
+
+          rm -f ~/.ssh/deploy.pem
+
