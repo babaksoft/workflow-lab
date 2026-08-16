@@ -83,8 +83,11 @@ jobs:
         run: pytest -m "not integration" -v
 
   publish:
+    needs:
+      - quality
+      - tests
+
     name: Build and publish Docker images
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     permissions:
