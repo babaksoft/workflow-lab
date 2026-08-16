@@ -34,27 +34,16 @@ jobs:
 
           ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
 
-          echo "Preparing deployment directories..."
-          ssh -i ~/.ssh/deploy.pem "$EC2_USER@$EC2_HOST" \
-            "mkdir -p /opt/workflow-lab/secrets && \
-             chmod 700 /opt/workflow-lab/secrets"
-
-          echo "Provisioning Docker secrets..."
-          printf '%s' "$OPENAI_API_KEY" | \
-            ssh -i ~/.ssh/deploy.pem "$EC2_USER@$EC2_HOST" \
-            "cat > /opt/workflow-lab/secrets/openai_api_key.txt && \
-             chmod 600 /opt/workflow-lab/secrets/openai_api_key.txt"
-
-          printf '%s' "$AWS_BEARER_TOKEN_BEDROCK" | \
-            ssh -i ~/.ssh/deploy.pem "$EC2_USER@$EC2_HOST" \
-            "cat > /opt/workflow-lab/secrets/bedrock_api_key.txt && \
-             chmod 600 /opt/workflow-lab/secrets/bedrock_api_key.txt"
-
-          echo "Deploying image tag: $IMAGE_TAG"
           ssh -i ~/.ssh/deploy.pem "$EC2_USER@$EC2_HOST" \
             "cd /opt/workflow-lab && \
-             IMAGE_TAG='$IMAGE_TAG' docker compose -f docker-compose.prod.yml pull && \
-             IMAGE_TAG='$IMAGE_TAG' docker compose -f docker-compose.prod.yml up -d"
+            IMAGE_TAG='$IMAGE_TAG' \
+            OPENAI_API_KEY='$OPENAI_API_KEY' \
+            AWS_BEARER_TOKEN_BEDROCK='$AWS_BEARER_TOKEN_BEDROCK' \
+            docker compose -f docker-compose.prod.yml pull && \
+            IMAGE_TAG='$IMAGE_TAG' \
+            OPENAI_API_KEY='$OPENAI_API_KEY' \
+            AWS_BEARER_TOKEN_BEDROCK='$AWS_BEARER_TOKEN_BEDROCK' \
+            docker compose -f docker-compose.prod.yml up -d"
 
           echo "Deployment completed."
 

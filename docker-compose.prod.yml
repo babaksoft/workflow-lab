@@ -10,14 +10,24 @@ services:
     environment:
       PHOENIX_COLLECTOR_ENDPOINT: http://phoenix:6006/v1/traces
       PHOENIX_PROJECT_NAME: workflow-lab
+      PHOENIX_WORKING_DIR: /app/.phoenix
       PHOENIX_ENABLED: "true"
       LLM_PROVIDER: ${LLM_PROVIDER}
       LLM_MODEL: ${LLM_MODEL}
       LOG_DIR: /app/logs
 
     secrets:
-      - openai_api_key
-      - bedrock_api_key
+      - source: openai_api_key
+        target: openai_api_key
+        uid: "1000"
+        gid: "1000"
+        mode: 0400
+
+      - source: bedrock_api_key
+        target: bedrock_api_key
+        uid: "1000"
+        gid: "1000"
+        mode: 0400
 
     ports:
       - "8000:8000"
@@ -122,7 +132,7 @@ networks:
 
 secrets:
   openai_api_key:
-    file: ./secrets/openai_api_key.txt
+    environment: OPENAI_API_KEY
 
   bedrock_api_key:
-    file: ./secrets/bedrock_api_key.txt
+    environment: AWS_BEARER_TOKEN_BEDROCK

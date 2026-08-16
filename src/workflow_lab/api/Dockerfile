@@ -30,7 +30,7 @@ RUN useradd --create-home --shell /usr/sbin/nologin appuser
 COPY --from=builder /opt/venv /opt/venv
 COPY --from=builder /build/src ./src
 
-RUN mkdir -p /app/logs \
+RUN mkdir -p /app/logs /app/.phoenix \
     && chown -R appuser:appuser /app
 
 USER appuser
