@@ -1,13 +1,6 @@
 name: CD
 
 on:
-  workflow_run:
-    workflows: ["CI"]
-    types:
-      - completed
-    branches:
-      - master
-
   workflow_dispatch:
     inputs:
       image_tag:
@@ -16,69 +9,6 @@ on:
         type: string
 
 jobs:
-  publish:
-    name: Build and publish Docker images
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ vars.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Extract Docker metadata for API
-        id: api-meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ vars.DOCKERHUB_USERNAME }}/workflow-lab-api
-          tags: |
-            type=sha
-            type=raw,value=latest
-
-      - name: Extract Docker metadata for app
-        id: app-meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ vars.DOCKERHUB_USERNAME }}/workflow-lab-app
-          tags: |
-            type=sha
-            type=raw,value=latest
-
-      - name: Build and push API image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: src/workflow_lab/api/Dockerfile
-          push: true
-          tags: ${{ steps.api-meta.outputs.tags }}
-          labels: ${{ steps.api-meta.outputs.labels }}
-          cache-from: type=gha,scope=api
-          cache-to: type=gha,mode=max,scope=api
-
-      - name: Build and push app image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: src/workflow_lab/ui/Dockerfile
-          push: true
-          tags: ${{ steps.app-meta.outputs.tags }}
-          labels: ${{ steps.app-meta.outputs.labels }}
-          cache-from: type=gha,scope=app
-          cache-to: type=gha,mode=max,scope=app
-
   deploy:
     name: Deploy to EC2
     runs-on: ubuntu-latest
