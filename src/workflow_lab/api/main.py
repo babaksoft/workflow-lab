@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from workflow_lab.api.instrument import instrument_http_request
 from workflow_lab.api.lifespan import lifespan
+from workflow_lab.api.routes.health import router as health_router
 from workflow_lab.api.routes.metrics import router as metrics_router
 from workflow_lab.api.routes.workflow import router as workflow_router
 from workflow_lab.config import settings
@@ -32,8 +33,9 @@ def create_app(*, phoenix_enabled: bool | None = None) -> FastAPI:
 
     app.middleware("http")(instrument_http_request)
 
-    app.include_router(workflow_router, prefix="/api/v1")
-    app.include_router(metrics_router, prefix="/api/v1")
+    app.include_router(workflow_router, prefix=settings.API_URL_PREFIX)
+    app.include_router(metrics_router, prefix=settings.API_URL_PREFIX)
+    app.include_router(health_router, prefix=settings.API_URL_PREFIX)
 
     return app
 

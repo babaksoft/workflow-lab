@@ -47,7 +47,8 @@ LOG_FILE = LOG_DIR / "workflow_lab.log"
 LOG_LEVEL = logging.DEBUG
 
 # API settings
-LOCAL_URL_PREFIX = "http://127.0.0.1:8000/api/v1"
+API_URL_PREFIX = "/api/v1"
+LOCAL_URL_PREFIX = f"http://127.0.0.1:8000{API_URL_PREFIX}"
 URL_PREFIX = os.getenv("URL_PREFIX", LOCAL_URL_PREFIX)
 
 # Phoenix settings
