@@ -3,7 +3,7 @@ from collections.abc import Awaitable, Callable
 from fastapi import Request, Response
 from prometheus_client import Counter, Histogram
 
-from workflow_lab.utils.timer import Timer
+from workflow_lab.utils import Timer
 
 HTTP_REQUESTS = Counter(
     "workflow_lab_http_requests_total",

@@ -1,7 +1,7 @@
 import os
 
 from workflow_lab.providers import create_provider
-from workflow_lab.workflows.generator_judge_flow import GeneratorJudgeFlow
+from workflow_lab.workflows import GeneratorJudgeFlow
 
 LLM_PROVIDER = "openai"
 LLM_MODEL = "gpt-4o-mini"

@@ -5,14 +5,15 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from workflow_lab.config.logging import configure_logging
-from workflow_lab.utils.instrumentation import instrument
+from workflow_lab.utils import instrument
 
 logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    """Manage application startup and shutdown lifecycle events.
+    """
+    Manage application startup and shutdown lifecycle events.
 
     Args:
         app:
@@ -24,6 +25,8 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     if app.state.phoenix_enabled:
         instrument()
 
-    logger.info("Starting Workflow Lab API")
+    logger.info("Starting Workflow Lab API.")
 
     yield
+
+    logger.info("Stopping Workflow Lab API.")

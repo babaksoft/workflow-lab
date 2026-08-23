@@ -8,9 +8,9 @@ from workflow_lab.api.instrument import (
     WORKFLOW_EXECUTIONS,
     WORKFLOW_LATENCY,
 )
-from workflow_lab.api.schemas.workflow import WorkflowResponse
-from workflow_lab.utils.timer import Timer
-from workflow_lab.workflows.generator_judge_flow import GeneratorJudgeFlow
+from workflow_lab.api.schemas import WorkflowResponse
+from workflow_lab.utils import Timer
+from workflow_lab.workflows import GeneratorJudgeFlow
 
 router = APIRouter(prefix="/workflow", tags=["workflow"])
 

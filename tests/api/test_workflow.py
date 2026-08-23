@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 
 from workflow_lab.api.dependencies import get_workflow
 from workflow_lab.api.main import create_app
-from workflow_lab.workflows.math_flow import MathFlow
+from workflow_lab.workflows import MathFlow
 
 
 def get_test_workflow() -> MathFlow:

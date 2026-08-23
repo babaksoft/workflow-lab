@@ -5,7 +5,9 @@ from typing import Self
 
 
 class Timer:
-    """Measure the execution time of a code block."""
+    """
+    Measure the execution time of a code block.
+    """
 
     def __enter__(self) -> Self:
         """Start timing."""

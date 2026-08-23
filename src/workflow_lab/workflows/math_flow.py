@@ -5,7 +5,7 @@ from workflows import Workflow, step
 from workflows.events import StartEvent, StopEvent
 
 from workflow_lab.config.logging import configure_logging
-from workflow_lab.utils.instrumentation import instrument
+from workflow_lab.utils import instrument
 
 logger = logging.getLogger(__name__)
 

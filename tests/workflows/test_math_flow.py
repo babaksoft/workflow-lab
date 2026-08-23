@@ -1,4 +1,4 @@
-from workflow_lab.workflows.math_flow import MathFlow
+from workflow_lab.workflows import MathFlow
 
 
 async def test_math_flow_returns_expected_result() -> None:

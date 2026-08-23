@@ -18,6 +18,7 @@ def run_workflow() -> Any | None:
     Raises:
         requests.HTTPError:
             If the API request fails.
+
         TypeError:
             If the API response has an invalid format.
     """

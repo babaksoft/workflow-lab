@@ -2,9 +2,11 @@ from fastapi import FastAPI
 
 from workflow_lab.api.instrument import instrument_http_request
 from workflow_lab.api.lifespan import lifespan
-from workflow_lab.api.routes.health import router as health_router
-from workflow_lab.api.routes.metrics import router as metrics_router
-from workflow_lab.api.routes.workflow import router as workflow_router
+from workflow_lab.api.routes import (
+    health_router,
+    metrics_router,
+    workflow_router,
+)
 from workflow_lab.config import settings
 
 

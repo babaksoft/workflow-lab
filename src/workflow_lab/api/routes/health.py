@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from workflow_lab.api.schemas.health import HealthResponse
+from workflow_lab.api.schemas import HealthResponse
 
 router = APIRouter()
 
