@@ -20,11 +20,8 @@ def client() -> TestClient:
 def test_health_check_returns_healthy_status(
     client: TestClient,
 ) -> None:
-    """Verify the health endpoint returns a healthy status.
-
-    Args:
-        client:
-            FastAPI test client.
+    """
+    Verify the health endpoint returns a healthy status.
     """
 
     response = client.get(f"{settings.API_URL_PREFIX}/health")

@@ -5,6 +5,7 @@ from fastapi.testclient import TestClient
 
 from workflow_lab.api.dependencies import get_workflow
 from workflow_lab.api.main import create_app
+from workflow_lab.config import settings
 from workflow_lab.workflows import MathFlow
 
 
@@ -42,7 +43,7 @@ def test_run_workflow(client: TestClient) -> None:
     Verifies that the workflow endpoint executes successfully.
     """
 
-    response = client.post("/api/v1/workflow")
+    response = client.post(f"{settings.API_URL_PREFIX}/workflow")
 
     assert response.status_code == 200
     assert response.json() == {"result": {"value": 4}}

@@ -12,12 +12,39 @@ from workflow_lab.providers import LLMProvider
 
 
 class JudgeResult(BaseModel):
-    """Represents the judge's evaluation of the generated answer."""
+    """
+    Represents the judge's evaluation of the generated answer.
 
-    constraint_handling: int = Field(ge=1, le=10)
-    word_counting: int = Field(ge=1, le=10)
-    word_filtering: int = Field(ge=1, le=10)
-    justification: dict[str, str]
+    Attributes:
+        constraint_handling:
+            Grading result for constraint handling.
+
+        word_counting:
+            Grading result for word counting.
+
+        word_filtering:
+            Grading result for word filtering.
+
+        justification:
+            Justification of grading results for each rubric.
+    """
+
+    constraint_handling: int = Field(
+        ..., description="Grading result for constraint handling.", ge=1, le=10
+    )
+
+    word_counting: int = Field(
+        ..., description="Grading result for word counting.", ge=1, le=10
+    )
+
+    word_filtering: int = Field(
+        ..., description="Grading result for word filtering.", ge=1, le=10
+    )
+
+    justification: dict[str, str] = Field(
+        ...,
+        description="Justification of grading results for each rubric.",
+    )
 
 
 class ResponseEvent(Event):
