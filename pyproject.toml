@@ -75,3 +75,19 @@ asyncio_mode = "auto"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/workflow_lab"]
+
+[dependency-groups]
+dev = [
+    "black>=26.5.1",
+    "isort>=9.0.1",
+    "mypy>=2.3.1",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "ruff>=0.16.6",
+    "streamlit>=1.63.0",
+]
+
+ui = [
+    "requests>=2.34.2",
+    "streamlit>=1.63.0",
+]
