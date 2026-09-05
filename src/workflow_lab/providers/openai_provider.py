@@ -18,11 +18,10 @@ class OpenAIProvider(LLMProvider):
                 Prompt sent to the LLM.
 
         Returns:
-            Generated text.
+            Generated response from the LLM.
         """
 
         llm = OpenAI(model=self._model)
-
         response = await llm.acomplete(prompt)
 
         return str(response.text)

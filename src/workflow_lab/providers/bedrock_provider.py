@@ -19,11 +19,10 @@ class BedrockProvider(LLMProvider):
                 Prompt sent to the LLM.
 
         Returns:
-            Generated text.
+            Generated response from the LLM.
         """
 
         llm = Bedrock(model=self._model)
-
         response = llm.complete(prompt)
 
         return str(response.text)

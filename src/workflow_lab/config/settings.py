@@ -46,9 +46,12 @@ LOG_DIR = Path(os.getenv("LOG_DIR", str(LOCAL_LOG_DIR)))
 LOG_FILE = LOG_DIR / "workflow_lab.log"
 LOG_LEVEL = logging.DEBUG
 
+# LLM settings (Dev mode only, Environment: WSL NAT)
+OLLAMA_BASE_URL = "http://172.31.80.1:11434"
+
 # API settings
 API_URL_PREFIX = "/api/v1"
-LOCAL_URL_PREFIX = f"http://127.0.0.1:8000{API_URL_PREFIX}"
+LOCAL_URL_PREFIX = f"http://localhost:8000{API_URL_PREFIX}"
 URL_PREFIX = os.getenv("URL_PREFIX", LOCAL_URL_PREFIX)
 
 # Phoenix settings

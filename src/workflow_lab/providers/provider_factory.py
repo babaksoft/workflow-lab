@@ -13,7 +13,7 @@ def create_provider(provider: str, model: str) -> LLMProvider:
             Provider identifier.
 
         model:
-            Model identifier.
+            Model name or identifier.
 
     Returns:
         Configured LLM provider.

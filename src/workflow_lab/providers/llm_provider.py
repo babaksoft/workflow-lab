@@ -13,6 +13,9 @@ class LLMProvider(ABC):
             prompt:
                 Prompt sent to the LLM.
 
+        Returns:
+            Generated response from the LLM.
+
         Raises:
             NotImplementedError:
                 If the provider does not implement generation.
