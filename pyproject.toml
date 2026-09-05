@@ -42,23 +42,8 @@ Homepage = "https://github.com/babaksoft/workflow-lab"
 Issues = "https://github.com/babaksoft/workflow-lab/issues"
 
 [project.optional-dependencies]
-build = [
-    "build",
-    "hatchling"
-]
-
 ui = [
     "requests",
-    "streamlit",
-]
-
-dev = [
-    "black",
-    "isort",
-    "mypy",
-    "pytest",
-    "pytest-asyncio",
-    "ruff",
     "streamlit",
 ]
 
@@ -83,11 +68,7 @@ dev = [
     "mypy>=2.3.1",
     "pytest>=9.1.1",
     "pytest-asyncio>=1.4.0",
-    "ruff>=0.16.6",
-    "streamlit>=1.63.0",
-]
-
-ui = [
     "requests>=2.34.2",
+    "ruff>=0.16.6",
     "streamlit>=1.63.0",
 ]
